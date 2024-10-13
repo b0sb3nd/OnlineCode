@@ -3,6 +3,7 @@ const livePreviewFrame = document.getElementById('live-preview');
 const htmlEditor = document.getElementById('html');
 const cssEditor = document.getElementById('css');
 const jsEditor = document.getElementById('js');
+const fileInput = document.getElementById('file-input');
 
 // Function to set up the live preview iframe and include necessary scripts
 function initializeLivePreview() {
@@ -98,4 +99,19 @@ function setupLivePreviewStudio() {
 document.addEventListener('DOMContentLoaded', () => {
     initializeLivePreview();
     setupLivePreviewStudio();
+});
+
+fileInput.addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const imgTag = `<img src="${e.target.result}" alt="Uploaded Image">`;
+            editor.value += imgTag;
+            preview.innerHTML += imgTag;
+        };
+
+        reader.readAsDataURL(file);
+    }
 });
